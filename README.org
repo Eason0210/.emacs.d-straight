@@ -1,0 +1,119 @@
+#+title: My Emacs Configuration
+
+This is my emacs configuration, it work on MacOS, Linux and Windows.
+And this config is customized base on [[https://github.com/purcell/emacs.d][Purcell's Emacs config]] which I used for about one year. It's a very nice config for Emacs starter, Thanks Purcell Steve.
+
+** Why create this config?
+
+Because I need to optimize the startup time by [[https://github.com/jwiegley/use-package][use-package]], and remove features that I don't need.
+
+Use  [[https://github.com/raxod502/straight.el][straight.el]]  instead of the built-in ~package.el~ to manage packages.
+
+** Supported Languages
+Emacs itself comes with support for many programming languages. This config adds improved defaults and extended support for the following, listed in the approximate order of how much I use them, from most to least:
+
+- Haskell
+- C/C++
+- Python
+- CSS / LESS / SASS / SCSS
+- Javascript / Typescript
+- HTML
+- Rust
+
+Most of the Languages are supported by [[https://github.com/joaotavora/eglot][Eglot]] which is a lightweight LSP client for Emacs.
+
+** Supported Emacs versions
+Suggest to use Emacs 29 to get the full features.
+*** Install Emacs 29
+**** macOS
+You can build Emacs 29 from source  or install by home-brew.
+
+- build with script
+#+begin_src bash
+git clone https://github.com/jimeh/build-emacs-for-macos
+cd build-emacs-for-macos
+brew bundle
+brew services start dbus
+
+./build-emacs-for-macos --native-full-aot
+cd builds
+tar -xjvf Emacs.2022-xx-xx.xxxxxxx.master.macOS-12.x86_64.tbz
+#+end_src
+Copy the Emacs.app to ~/Applications/Emacs.app~
+
+Link emacs to ~/usr/local/bin~
+#+begin_src bash
+ln -s /Applications/Emacs.app/Contents/MacOS/bin/emacs /usr/local/bin/emacs
+#+end_src
+
+- build from source
+#+begin_src bash
+# Install compile dependencies
+brew install autoconf automake texinfo gnutls pkg-config libxml2 librsvg jansson giflib libtiff
+
+brew install gcc libgccjit # Only needed for --with-native-compilation
+
+# Clone source code
+git clone --depth=1 https://github.com/emacs-mirror/emacs.git ~/src/emacs
+cd ~/src/emacs
+
+# build Emacs
+./autogen.sh
+./configure --with-native-compilation --with-xwidgets
+make -j14 # the number is the cores of your CPU
+make install
+#+end_src
+open -R nextstep/Emacs.app
+and dragging Emacs to the Applications folder.
+
+Link emacs to ~/usr/local/bin~
+#+begin_src bash
+ln -s /Applications/Emacs.app/Contents/MacOS/bin/emacs /usr/local/bin/emacs
+#+end_src
+
+- Install with home-brew:
+See details on [[https://github.com/jimeh/emacs-builds][jimeh/emacs-builds]]
+#+begin_src sh
+brew tap jimeh/emacs-builds
+brew install --cask emacs-app-nightly
+#+end_src
+
+**** Arch Linux
+#+begin_src bash
+sudo pacman -S emacs-native-comp-git
+# or
+sudo pacman -S emacs-git
+#+end_src
+
+**** Windows
+- Download the snapshot from [[https://alpha.gnu.org/gnu/emacs/pretest/windows/][gnu/emacs/pretest/windows]]
+- [[https://eason0210.github.io/post/install-gccemacs/][Build by msys2]]
+
+** Installation
+To install, clone this repo to ~$HOME/.emacs.d~, i.e. ensure that the ~init.el~ contained in this repo ends up at ~$HOME/.emacs.d/init.el~:
+
+#+begin_src bash
+git clone https://github.com/Eason0210/emacs.d.git ~/.emacs.d
+#+end_src
+Start Emacs, ~straight~ will clone and build all the packages and dependencies.
+
+*** org-roam
+You need to install ~sqlite3~ in your system.
+
+The default org-roam-directory is ~$HOME/.org/org-roam~
+*** vterm
+You need to install libvterm in your system. Only support macOS and Linux platform.
+#+begin_src sh
+brew install libvterm # on macOS
+#+end_src
+
+**  Update the config
+#+begin_src bash
+git pull
+#+end_src
+
+** Reference configurations
+1. [[https://github.com/purcell/emacs.d][Purcell/emacs.d]]
+2. [[https://github.com/jwiegley/dot-emacs/blob/master/init.el][jwiegley/dot-emacs]]
+3. [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]]
+4. [[https://github.com/MatthewZMD/.emacs.d][M-EMACS]]
