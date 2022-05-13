@@ -1831,6 +1831,8 @@ there is no current file, eval the current buffer."
   (add-to-list 'super-save-triggers 'switch-window)
   (super-save-mode 1))
 
+(use-package vundo :straight t :defer t)
+
 ;;; Toggle system input method automatically
 
 (use-package sis
